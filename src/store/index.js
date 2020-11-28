@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import EventService from '@/services/EventService'
+import * as user from '@/store/modules/user'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: { id: 'abc123', name: 'Adam Jahr' },
     categories: [
       'sustainability',
       'nature',
@@ -77,7 +77,9 @@ export default new Vuex.Store({
       }
     }
   },
-  modules: {},
+  modules: {
+    user
+  },
   getters: {
     catLength: state => {
       return state.categories.length
