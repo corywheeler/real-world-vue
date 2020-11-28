@@ -10,11 +10,14 @@
       >
       |
     </template>
-    <router-link
-      :to="{ name: 'event-list', query: { page: page + 1 } }"
-      rel="next"
-      >Next Page</router-link
-    >
+    <template v-if="hasNextLink">
+      <router-link
+        :to="{ name: 'event-list', query: { page: page + 1 } }"
+        rel="next"
+        >Next Page</router-link
+      >
+    </template>
+
     <BaseIcon />
   </div>
 </template>
@@ -28,16 +31,20 @@ export default {
     EventCard
   },
   created() {
+    this.perPage = 3
     this.$store.dispatch('fetchEvents', {
-      perPage: 3,
+      perPage: this.perPage,
       page: this.page
     })
   },
   computed: {
+    hasNextLink() {
+      return this.totalEvents > this.page * this.perPage
+    },
     page() {
       return parseInt(this.$route.query.page) || 1
     },
-    ...mapState(['events'])
+    ...mapState(['events', 'totalEvents'])
   }
 }
 </script>
